@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 """
+This script is used as part of the study entitled "Assessing the effects of transient weather conditions on 
+airborne transmission risk in naturally ventilated hospitals."; 
+Alexander J. Edwards, Marco-Felipe King,  Martin Lopez-Garcia, Daniel Peckham, Catherine J. Noakes.".
+The user should refer to the README file in the GitHub repository for a description on its use.
+
 Created 25/01/2023 AJE
 """
 from read_csv import ReadCSV
 import numpy as np
 
-#r"C:\Users\scaje\OneDrive - University of Leeds\UNIV. OF LEEDS\PhD PROJECT\Ward Transmission\Contam_models\wind_driven_flow_study\J12_12zone\Increased_leakage\Exported_results\IZFlows.csv"
 
 def extract_flow_contam(filepath,n,t,geometry):
     flows = ReadCSV(filepath)

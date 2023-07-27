@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 """
 Created 15/03/2023 AJE
-Extract vent from contam represneting Nat vent and Mech vent which is imposed in CONTAM and exported to here
+This script is used as part of the study entitled "Assessing the effects of transient weather conditions on 
+airborne transmission risk in naturally ventilated hospitals."; 
+Alexander J. Edwards, Marco-Felipe King,  Martin Lopez-Garcia, Daniel Peckham, Catherine J. Noakes.".
+The user should refer to the README file in the GitHub repository for a description on its use.
 """
 from read_csv import ReadCSV
 import numpy as np
 
-#r"C:\Users\scaje\OneDrive - University of Leeds\UNIV. OF LEEDS\PhD PROJECT\Ward Transmission\Contam_models\wind_driven_flow_study\J12_12zone\Increased_leakage\Exported_results\IZFlows.csv"
 
 def extract_flow_contam(filepath,n,t,geometry, filepathMV):
     flows = ReadCSV(filepath)
@@ -30,7 +32,7 @@ def extract_flow_contam(filepath,n,t,geometry, filepathMV):
     # then since the format of the data includes 2 entries for each flow value we take steps in 2 rather than 1
     #the second index then selects the colum which refers to the boundary
     
-    #extract columes 
+    #extract columns 
     #extract in zone 1 = - amb to zone 1 -- idx=0
     #extract in zone 2 = - amb to zone 2 -- idx=3
     #extract in zone 3 = - amb to zone 3 -- idx=1

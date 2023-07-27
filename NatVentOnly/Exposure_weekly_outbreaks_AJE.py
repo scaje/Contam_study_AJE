@@ -4,42 +4,28 @@ Created on Mon Feb 13 15:00:04 2023
 
 @author: scaje
 
-This script includes the analysis completed on the CONTAM WTH study
-Here, we aim to run the multi-zonal model with imported vent flows and boundary flows
-and the run for a weekly period - resetting the exposure to an initial condition of 10.
-
-This then stores the final number of exposures per week, per zone in a vector which are collected
-and will be used to produce a distribution of the solutions.
-
-
+This script is used as part of the study entitled "Assessing the effects of transient weather conditions on 
+airborne transmission risk in naturally ventilated hospitals."; 
+Alexander J. Edwards, Marco-Felipe King,  Martin Lopez-Garcia, Daniel Peckham, Catherine J. Noakes.".
+The user should refer to the README file in the GitHub repository for a description on its use.
 
 
 Created 13/02/2023 AJE
 """
 
 
-import matplotlib.pyplot as plt
 import numpy as np
 from scipy.integrate import odeint #for solving odes
-import matplotlib.colors as mcolors #colour name package
-from matplotlib.pyplot import cm #colour map package
-#from pywaffle import Waffle #visual package for visuallising icons
 import time #for live run time of code
-#import pandas as pd
-from read_csv_gen import ReadCSV
-from gradient_func import deriv #import function for calculating the gradient
-#import datetime #python datetime module
-#from windrose import WindroseAxes
-import random, math
-import J12_12z_contam_wth_ventflows as VentMatrix #imports setup for 6 zone ward ventilaton setting from another file where it is already defined
-from J12_12z_contam_wth_ventflows import VentilationMatrix #import function which defines ventilation matrix
-from J12_12z_contam_wth_ventflows import InvVentilationMatrix #imports function which defines inverse ventilation matrix
-from SE_Concentration_Functions import odes #imports predefined SE ode functions for transient concentration
-from SE_Concentration_Functions import steadyodes ##imports predefined SE ode functions for steady concentration
+import ventflows_AJE as VentMatrix #imports setup for 6 zone ward ventilaton setting from another file where it is already defined
+from ventflows_AJE import VentilationMatrix #import function which defines ventilation matrix
+from ventflows_AJE import InvVentilationMatrix #imports function which defines inverse ventilation matrix
+from SE_Conc_eqns_AJE import odes #imports predefined SE ode functions for transient concentration
+from SE_Conc_eqns_AJE import steadyodes ##imports predefined SE ode functions for steady concentration
 from output_contam import output_SE_Ct #This imports the plotting ode for all possible outputs for multizonal transient concentreation SE model
-from contam_wth_IzFlows_12zone import boundary_flow_contam #this import the function which changes the boundary flow values based on output from contam simulation
-from contam_wth_Extract_12zone import extract_flow_contam #this import the function which changes the extract ventiatlion in each zonebased on output from contam simulation
-import pandas as pd
+from IzFlows_AJE import boundary_flow_contam #this import the function which changes the boundary flow values based on output from contam simulation
+from Extract_AJE import extract_flow_contam #this import the function which changes the extract ventiatlion in each zonebased on output from contam simulation
+
 
 
 start_time = time.time() #time code started running
@@ -47,22 +33,6 @@ start_time = time.time() #time code started running
 
 #########################################################################################################################################################
 
-####################### filepaths ####################################
-
-#########################################################################################################################################################
-
-############# Results from multi-zone code########
-#the multi-zone code here currently runs for a period of 183 days, time stepping every minute giving...
-#...263520 time setps in total.
-#This also runs for 183 days April - End of Sept
-#concentration
-#filepath_conc = r'C:\Users\scaje\OneDrive - University of Leeds\UNIV. OF LEEDS\PhD PROJECT\Ward Transmission\Code\Zonal_models\Zonal_Models_New_versions\Scenarios\CONTAM_wth\python_results\Conc_pyresults.csv'
-#Ct = ReadCSV(filepath_conc)[1] #take the second argument (note that the first argument gives headers, second gives the data, the last gives dates/indicies)
-
-
-#exposures
-#filepath_exp = r'C:\Users\scaje\OneDrive - University of Leeds\UNIV. OF LEEDS\PhD PROJECT\Ward Transmission\Code\Zonal_models\Zonal_Models_New_versions\Scenarios\CONTAM_wth\python_results\Expos_pyresults.csv'
-#Et = ReadCSV(filepath_exp)[1]
 
 ###########################################################################
 #############################################################################
@@ -72,12 +42,10 @@ start_time = time.time() #time code started running
 ###########################Initial values###################################
 
 #number of zones
-#n= int(np.shape(Ct)[1])
 n=12
 
 K_zonal = np.zeros(n)
-#for i in range(n):
-#    K_zonal[i]=10
+
 K_zonal[0]=4
 K_zonal[1]=4
 K_zonal[2]=1
@@ -99,7 +67,7 @@ for i in range(n):
 
 #quanta rate = quanta/min . person (as 0.5 quanta per min)
 q=0.5 #0.0166667=1qhr, 0.1666667=10qhr, 0.5=30qhr, 5qhr=0.083334
-qhr = int(q*60)
+qhr = int(q*60) #quanta per hour
 #pulmonary rate = volume/min ( as 0.01volume/min)
 p=0.01
 
@@ -114,17 +82,8 @@ p=0.01
 
 
 #THE FILEPATH USED FOR THE RESULTS THROUGHOUT
-filepath = r"C:\Users\scaje\OneDrive - University of Leeds\UNIV. OF LEEDS\PhD PROJECT\Ward Transmission\Contam_models\wind_driven_flow_study\J12_12zone\Increased_leakage\Exported_results\IZFlows.csv"
+filepath = r"Contam_sim/IZFlows.csv"
 
-
-#filepath for the flipped study investigating a 180 degree spin
-#filepath = r"C:\Users\scaje\OneDrive - University of Leeds\UNIV. OF LEEDS\PhD PROJECT\Ward Transmission\Contam_models\wind_driven_flow_study\J12_12zone\Orientation\Exported_results\IZFlows.csv"
-
-
-#different file paths for each contam simulation
-#Windows closed - r"C:\Users\scaje\OneDrive - University of Leeds\UNIV. OF LEEDS\PhD PROJECT\Ward Transmission\St_James_ward_info\CONTAM_Model_Zeyu\Contam_data\Windows_closed.csv"
-#windows open - r"C:\Users\scaje\OneDrive - University of Leeds\UNIV. OF LEEDS\PhD PROJECT\Ward Transmission\St_James_ward_info\CONTAM_Model_Zeyu\Contam_data\Windows_open.csv"
-#windows open when infHCW present - r"C:\Users\scaje\OneDrive - University of Leeds\UNIV. OF LEEDS\PhD PROJECT\Ward Transmission\St_James_ward_info\CONTAM_Model_Zeyu\Contam_data\Windows_open_during_visit.csv"
 
 ###############################################################
 
@@ -133,15 +92,7 @@ p_zonal = np.zeros(n)
 #for when  is the same in each room
 for i in range(n):
     p_zonal[i] = p
-#If volumes are different
-#p_zonal[0]=
-#p_zonal[1]=
-#p_zonal[2]=
-#   .
-#   .
-#   .
-#p_zonal[n]=
-print("Pulmonary rate p_zonal = " + str(p_zonal))
+
 ############################################################################
 
 #Zonal quanta
@@ -149,15 +100,7 @@ q_zonal = np.zeros(n)
 #for when  is the same in each room
 for i in range(n):
     q_zonal[i] = q
-#If volumes are different
-#q_zonal[0]=
-#q_zonal[1]=
-#q_zonal[2]=
-#   .
-#   .
-#   .
-#q_zonal[n]=
-print("quanta q_zonal = " + str(q_zonal))
+
 ############################################################################
 
 #infected person
@@ -165,20 +108,19 @@ I_zonal = np.zeros(n)
 I_zonal[4] = 1
  
 
-print("infections I_zonal = " + str(I_zonal))
+
 ##########################################################################
 
-#############################################################################
+
+
+
+
 #############################################################################
 ######################### DEFINE  Transient ODES #############################
-#############################################################################
-
-
-#################################################################
 
 
 
-###########################################################################
+
 ################ Time and infector setup #############################
 ##############################################################################
 
@@ -192,8 +134,7 @@ print("infections I_zonal = " + str(I_zonal))
 #weather time steping in minutes
 wth_delta_t=60 #1hr time stepping for weather file
 update_t_len= 2*wth_delta_t #length of time for each period of solving before flow updates 
-#total sim length Apr-Oct 214 days
-sim_len_days = 183 #183 days for  Apr -End of Sept (oct) # 214 days for Apr-End of Oct 
+sim_len_days = 183 #183 days for  Apr -End of Sept (oct) 
 sim_len_hrs = sim_len_days*24
 sim_len_mins = sim_len_hrs*60
 
@@ -226,10 +167,8 @@ I_zonal_t1 = I_zonal # for infector present in nurse station - Zone 5
 
 ###########################################################################
 ############################################################################
-##############################################################################
-#################################################################
 
-#Loops below calculate the solution for transient infector over any specified time periods
+
 
 ###########################################
 ##############  Transient #################
@@ -314,51 +253,10 @@ for j in range(num_weeks):
 
 
     
-    
-
-
-###########################################################################
-###########################################################################
-
-
-
-
-############################################################################
-#saving results to excel spreadsheet
-############################################################################
-# =============================================================================
-# #convert to data frame
-# df1=pd.DataFrame(Et, columns=['Zone 1','Zone 2','Zone 3','Zone 4','Zone 5','Zone 6','Zone 7','Zone 8','Zone 9','Zone 10','Zone 11','Zone 12'])
-# #df2=pd.DataFrame(Et_weekly)#, columns=['Zone 1','Zone 2','Zone 3','Zone 4','Zone 5','Zone 6','Zone 7','Zone 8','Zone 9','Zone 10','Zone 11','Zone 12'])
-# df3=pd.DataFrame(Et_week_end)#, columns=['Zone 1','Zone 2','Zone 3','Zone 4','Zone 5','Zone 6','Zone 7','Zone 8','Zone 9','Zone 10','Zone 11','Zone 12'])
-# 
-# #export
-# df1.to_csv(r'C:\Users\scaje\OneDrive - University of Leeds\UNIV. OF LEEDS\PhD PROJECT\Ward Transmission\Code\Zonal_models\Zonal_Models_New_versions\Scenarios\CONTAM_wth\python_results\%sqhr\Weekly_Exposure_analysis\Exp_sol_all.csv' %(qhr))#, sheet_name = 'Concentration')
-# #df2.to_csv(r'C:\Users\scaje\OneDrive - University of Leeds\UNIV. OF LEEDS\PhD PROJECT\Ward Transmission\Code\Zonal_models\Zonal_Models_New_versions\Scenarios\CONTAM_wth\python_results\Weekly_Exposure_analysis\Exp_sol_weekly.csv')#, sheet_name = 'Exposures')
-# df3.to_csv(r'C:\Users\scaje\OneDrive - University of Leeds\UNIV. OF LEEDS\PhD PROJECT\Ward Transmission\Code\Zonal_models\Zonal_Models_New_versions\Scenarios\CONTAM_wth\python_results\%sqhr\Weekly_Exposure_analysis\Week_total_exp_all.csv'%(qhr))#, sheet_name = 'Exposures')
-# 
-# for i in range(num_weeks):
-#     df4=pd.DataFrame(Et_weekly[i], columns=['Zone 1','Zone 2','Zone 3','Zone 4','Zone 5','Zone 6','Zone 7','Zone 8','Zone 9','Zone 10','Zone 11','Zone 12'])
-#     df4.to_csv(r'C:\Users\scaje\OneDrive - University of Leeds\UNIV. OF LEEDS\PhD PROJECT\Ward Transmission\Code\Zonal_models\Zonal_Models_New_versions\Scenarios\CONTAM_wth\python_results\%sqhr\Weekly_Exposure_analysis\Exp_sol_week_%s.csv' %(qhr,i+1))#
-# 
-# 
-# =============================================================================
-
+#############################################################################
 
 
 print("--- Run Time = %s seconds ---" % (time.time() - start_time))
 
 
-#########################################################################################################################################################
-
-######################### Plotting #########################################
-
-#########################################################################################################################################################
-
-
-
-    
-
-
-############################################################################
-############################################################################
+###################################################################
