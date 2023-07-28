@@ -55,7 +55,7 @@ n=12
 
 
 #THE FILEPATH USED FOR THE RESULTS THROUGHOUT 
-filepath = r"Contam_sim/IZFlows.csv"
+filepath = r"Contam_sim\IZFlows.csv"
 
 
 ###############################################################
@@ -195,7 +195,7 @@ plt.figure(dpi=750)#set dots per inch for better quality images
 for i in range(n):
     c=next(colour)
     plt.plot(t_plot, Ct[:,i], color=c, label='Zone %s' %(i+1))
-plt.title("Concentration of Pathogen C(t)")
+#plt.title("Concentration of Pathogen C(t)")
 plt.xlabel("Time [months]")
 plt.xticks(np.arange(0, np.max(t_plot)+1, 1), month_label, rotation=45)#arrange in steps of 1 from 0 to max value - using mnth_label as x labels on a slant of 45 degrees
 #plt.yticks(np.arange(0,4,0.5))
@@ -216,7 +216,7 @@ sns.distplot(conc_all, hist=False, kde=True,
              kde_kws={'linewidth': 2})# Plot formatting     
 #plt.legend(loc='upper center',prop={'size': 10})#, bbox_to_anchor=(1, 0.5), title='')
 plt.xlabel('Concentration [$qm^{-3}$]')
-plt.title('Concentration over a 6-month period')
+#plt.title('Concentration over a 6-month period')
 #plt.yticks(np.arange(0,1.1,0.1))
 plt.xlim(0,3.5)
 plt.ylabel('Probability Density')

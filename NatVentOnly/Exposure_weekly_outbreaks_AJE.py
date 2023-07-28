@@ -84,7 +84,7 @@ p=0.01
 
 
 #THE FILEPATH USED FOR THE RESULTS THROUGHOUT
-filepath = r"Contam_sim/IZFlows.csv"
+filepath = r"Contam_sim\IZFlows.csv"
 
 
 ###############################################################

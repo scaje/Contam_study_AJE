@@ -11,6 +11,7 @@ CREATED 14/04/2023 AJE
 """
 
 
+from PIL import Image
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle 
 from matplotlib.pyplot import cm #colour map package
@@ -19,14 +20,27 @@ from matplotlib.pyplot import cm #colour map package
 
 def geom_colormap_natvent(nat_vent_zonal_avg, nat_vent_ward_avg):
 
-   
+    
+    #imports image which is used for the heat map - in this case the ward geometry
+    #even though image is not shown at the end, this sets the axis limits for the patches below
+    image=Image.open(r"12zone_geom_AJE.png")
+    
+    
+    
+    
     
     # Create figure and axes
     fig, ax = plt.subplots(dpi=750)
     
-
+    
+    
+    # Display the original image
+    ax.imshow(image)
+    
     
     #sorting colour maps
+    #nat_vent_zonal_avg = [0.14423077, 0, 0.61538462, 0.61538462, 0, 0, 0, 0, 0, 0.96153846, 0.5,0.03846154]
+    #risk_idx_ward  = 0.3581730769230769
     nat_vent_zonal_avg = nat_vent_zonal_avg/max(nat_vent_zonal_avg)
     cmap = cm.Blues(nat_vent_zonal_avg)
     ######## defining a colour map for text box of avg ward vent rate

@@ -11,6 +11,7 @@ CREATED 14/04/2023 AJE
 """
 
 
+from PIL import Image
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle 
 from matplotlib.pyplot import cm #colour map package
@@ -19,6 +20,10 @@ from matplotlib.pyplot import cm #colour map package
 
 def geom_colormap(risk_idx_zonal, risk_idx_ward):
 
+    #imports image which is used for the heat map - in this case the ward geometry
+    #even though image is not shown at the end, this sets the axis limits for the patches below
+    image=Image.open(r"12Zone_geom_AJE.png")
+    
     
     
     
@@ -26,7 +31,14 @@ def geom_colormap(risk_idx_zonal, risk_idx_ward):
     fig, ax = plt.subplots(dpi=750)
     
     
-
+    
+    # Display the original image
+    ax.imshow(image)
+    
+    
+    #sorting colour maps
+    #risk_idx_zonal = [0.14423077, 0, 0.61538462, 0.61538462, 0, 0, 0, 0, 0, 0.96153846, 0.5,0.03846154]
+    #risk_idx_ward  = 0.3581730769230769
     cmap = cm.Reds(risk_idx_zonal)
     
     # Create a Rectangle patch for each zone, following coordinates inline with original image axis 
@@ -81,6 +93,7 @@ def geom_colormap(risk_idx_zonal, risk_idx_ward):
 Index = %s''' %(round(risk_idx_ward,4)), fontsize = 10, bbox = dict(facecolor = ward_cmap, alpha = 0.5)) #Adding text inside a rectangular box by using the keyword 'bbox'
 
 
+    
     plt.text(10,750, '    =Infector', fontsize=10, bbox = dict(facecolor = 'w', alpha = 0.5)) #Adding text inside a rectangular box by using the keyword 'bbox'    
     #defining colours
     plt.text(10,850, 'No occupants', fontsize = 10, bbox = dict(facecolor = 'lightgrey', alpha = 0.5)) #Adding text inside a rectangular box by using the keyword 'bbox'
