@@ -301,7 +301,7 @@ for i in range(num_weeks):
         week_total_exp_zonal[i,j] = week_total_exp_all[int(j+i*12)]
 
 
-#rounding up values which are very close to integer (within 0.01) 
+#rounding up values which are very close to integer (within 0.009 of next integer) 
 for i in range(num_weeks):
     for j in range(n):
         week_total_exp_zonal[i,j] = int(round_up(week_total_exp_zonal[i,j], 2))
