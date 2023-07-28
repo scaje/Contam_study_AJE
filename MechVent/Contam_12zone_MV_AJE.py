@@ -13,14 +13,14 @@ Created 15/03/2023 AJE
 import numpy as np
 from scipy.integrate import odeint #for solving odes
 import time #for live run time of code
-import ventflows_AJE as VentMatrix #imports setup for 6 zone ward ventilaton setting from another file where it is already defined
-from ventflows_AJE import VentilationMatrix #import function which defines ventilation matrix
-from ventflows_AJE import InvVentilationMatrix #imports function which defines inverse ventilation matrix
+import ventflows_MV_AJE as VentMatrix #imports setup for 6 zone ward ventilaton setting from another file where it is already defined
+from ventflows_MV_AJE import VentilationMatrix #import function which defines ventilation matrix
+from ventflows_MV_AJE import InvVentilationMatrix #imports function which defines inverse ventilation matrix
 from SE_Conc_eqns_AJE import odes #imports predefined SE ode functions for transient concentration
 from SE_Conc_eqns_AJE import steadyodes ##imports predefined SE ode functions for steady concentration
 from output_contam import output_SE_Ct #This imports the plotting ode for all possible outputs for multizonal transient concentreation SE model
 from IzFlows_AJE import boundary_flow_contam #this import the function which changes the boundary flow values based on output from contam simulation
-from Extract_AJE import extract_flow_contam #this import the function which changes the extract ventiatlion in each zonebased on output from contam simulation
+from Extract_MV_AJE import extract_flow_contam #this import the function which changes the extract ventiatlion in each zonebased on output from contam simulation
 import pandas as pd
 
 # To run the code, one needs to define the initial parameters below and then 
@@ -58,10 +58,10 @@ n=12
 
 #THE FILEPATH USED FOR THE RESULTS THROUGHOUT (Uncomment where neccessary)
 #For 'mechanical ventialtion only' case
-#filepath = r"Contam_sim/IZFlow_winclsd3ACH.csv"
+#filepath = r"Contam_sim\IZFlow_MV_winclsd3ACH.csv"
 
 #for 'natural ventilation and mechanical ventialtion' case
-#filepath = r"Contam_sim/IZFlow_winop3ACH.csv"
+#filepath = r"Contam_sim\IZFlows_MV_winop3ACH.csv"
 
 #3ach mech vent
 filepathMV =  r"Contam_sim\MechVentFlows3ACH.csv"

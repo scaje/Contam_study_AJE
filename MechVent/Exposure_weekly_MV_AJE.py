@@ -20,13 +20,14 @@ Created 15/03/2023 AJE
 import numpy as np
 from scipy.integrate import odeint #for solving odes
 import time #for live run time of code
-import ventflows_AJE as VentMatrix #imports setup for 6 zone ward ventilaton setting from another file where it is already defined
-from ventflows_AJE import VentilationMatrix #import function which defines ventilation matrix
+import ventflows_MV_AJE as VentMatrix #imports setup for 6 zone ward ventilaton setting from another file where it is already defined
+from ventflows_MV_AJE import VentilationMatrix #import function which defines ventilation matrix
+from ventflows_MV_AJE import InvVentilationMatrix #imports function which defines inverse ventilation matrix
 from SE_Conc_eqns_AJE import odes #imports predefined SE ode functions for transient concentration
 from SE_Conc_eqns_AJE import steadyodes ##imports predefined SE ode functions for steady concentration
 from output_contam import output_SE_Ct #This imports the plotting ode for all possible outputs for multizonal transient concentreation SE model
 from IzFlows_AJE import boundary_flow_contam #this import the function which changes the boundary flow values based on output from contam simulation
-from Extract_AJE import extract_flow_contam #this import the function which changes the extract ventiatlion in each zonebased on output from contam simulation
+from Extract_MV_AJE import extract_flow_contam #this import the function which changes the extract ventiatlion in each zonebased on output from contam simulation
 import matplotlib.pyplot as plt
 import math
 from geom_code_AJE import geom_colormap #function for colouring zones in accordiing to risk factor
@@ -82,10 +83,10 @@ p=0.01
 
 #THE FILEPATH USED FOR THE RESULTS THROUGHOUT (Uncomment where neccessary)
 #For 'mechanical ventialtion only' case
-#filepath = r"Contam_sim/IZFlow_winclsd3ACH.csv"
+#filepath = r"Contam_sim\IZFlow_MV_winclsd3ACH.csv"
 
 #for 'natural ventilation and mechanical ventialtion' case
-#filepath = r"Contam_sim/IZFlow_winop3ACH.csv"
+#filepath = r"Contam_sim\IZFlows_MV_winop3ACH.csv"
 
 #3ach mech vent
 filepathMV =  r"Contam_sim\MechVentFlows3ACH.csv"
@@ -261,12 +262,35 @@ for j in range(num_weeks):
 ###########################################################################
 ##############PLOTTING #######################
 
-week_total_exp_all = Et_week_end
+#re-define the number of people in each zone
+#instead of total population, K_zonal is now the number of sucspetible. 
+#This needs to be adjusted depending on the zone of the infector. 
+#e.g. currently the infector is in zone 5, where there are no suscepibtles
+#people in each zone
+K_zonal = np.zeros(n)
+K_zonal[0]=4
+K_zonal[1]=4
+K_zonal[2]=1
+K_zonal[3]=1
+K_zonal[4]=0
+K_zonal[5]=0
+K_zonal[6]=0
+K_zonal[7]=0
+K_zonal[8]=0
+K_zonal[9]=3
+K_zonal[10]=2
+K_zonal[11]=1
 
+###################### NEW ANALYSIS #######################################
+##########################################################################
 #function for rounding up
 def round_up(n, decimals):
     multiplier = 10 ** decimals
     return math.ceil(n * multiplier) / multiplier
+
+#resetting vector to originals 
+week_total_exp_all = Et_week_end
+
 
 
 
@@ -281,22 +305,35 @@ for i in range(num_weeks):
 for i in range(num_weeks):
     for j in range(n):
         week_total_exp_zonal[i,j] = int(round_up(week_total_exp_zonal[i,j], 2))
+
+
+
+################################## PLOTTING ##############################
+######Probability histogram of exposures in a particular zone #############
+#bar plot with probabilities
+#setup bars and frequencies for histogram
 bins_zonal=[[] for i in range(n)]
 for i in range(n):
     bins_zonal[i] = np.linspace(0,int(K_zonal[i]), int(K_zonal[i]+1))
 
 freq_zonal = [[] for i in range(n)]
 
+#find probabilities for each exposure in each zone
 for i in range(n):
     binwidth = 1
     freq_zonal[i] ,bins_zonal[i] = np.histogram(week_total_exp_zonal[:,i], bins=int(K_zonal[i]+1), range=(0, int(K_zonal[i]+1)), density=True)
 
 
+    
+#Probabilities for histogram across whole ward over time
+#finding probabilities for each exposure across the ward 
 week_total_exp_ward = np.sum(week_total_exp_zonal,axis=1)
 freq_ward, bins_ward = np.histogram(week_total_exp_ward, bins = int(np.sum(K_zonal)+1), range = (0,int(np.sum(K_zonal)+1)), density=True)
+x_ward =np.linspace(0, int(np.sum(K_zonal)), int(np.sum(K_zonal)+1))
 
 
-
+################################################################################
+################################################################################
 #################### CALCULATING A RISK INDEX ##################################
 ###############################################################################
 
@@ -332,8 +369,8 @@ for i in range(len(freq_ward)):
     E_x_ward = E_x_ward + (freq_ward[i]*bins_ward[i])
     risk_idx_ward = E_x_ward / int(np.sum(K_zonal))
     
-print('Expected exposure value in each zone = %s'%(E_x_ward))
-print('Risk Index Factor in Each Zone = %s' %(risk_idx_ward))
+print('Expected exposure value for the ward = %s'%(E_x_ward))
+print('Risk Index Factor  for the ward = %s' %(risk_idx_ward))
 
 
 
@@ -353,6 +390,9 @@ plt.ylabel('Probability')
 plt.text(3, 0.8, 'Risk Index = %s' %(round(risk_idx_ward,4)), fontsize = 22, bbox = dict(facecolor = 'red', alpha = 0.5)) #Adding text inside a rectangular box by using the keyword 'bbox'
 plt.show()
 
+
+
+############################################################################
 ######################### COLOUR MAP ON GEOMERTY #########################
 
 #call function from other script with geomerty coded - include risk index for each zone, and for the ward as arguments

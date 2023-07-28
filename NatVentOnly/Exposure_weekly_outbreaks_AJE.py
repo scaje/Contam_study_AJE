@@ -265,6 +265,25 @@ print("--- Run Time = %s seconds ---" % (time.time() - start_time))
 
 
 ##############PLOTTING #######################
+#re-define the number of people in each zone
+#instead of total population, K_zonal is now the number of sucspetible. 
+#This needs to be adjusted depending on the zone of the infector. 
+#e.g. currently the infector is in zone 5, where there are no suscepibtles
+#people in each zone
+K_zonal = np.zeros(n)
+K_zonal[0]=4
+K_zonal[1]=4
+K_zonal[2]=1
+K_zonal[3]=1
+K_zonal[4]=0
+K_zonal[5]=0
+K_zonal[6]=0
+K_zonal[7]=0
+K_zonal[8]=0
+K_zonal[9]=3
+K_zonal[10]=2
+K_zonal[11]=1
+
 
 week_total_exp_all = Et_week_end
 
@@ -337,12 +356,12 @@ for i in range(len(freq_ward)):
     E_x_ward = E_x_ward + (freq_ward[i]*bins_ward[i])
     risk_idx_ward = E_x_ward / int(np.sum(K_zonal))
     
-print('Expected exposure value in each zone = %s'%(E_x_ward))
-print('Risk Index Factor in Each Zone = %s' %(risk_idx_ward))
+print('Expected exposure value for the ward = %s'%(E_x_ward))
+print('Risk Index Factor for the ward = %s' %(risk_idx_ward))
 
 
 
-########### Plotting for war dhistogram with risk index ########
+########### Plotting for ward histogram with risk index ########
 
 #Probabilities for histogram across whole ward over time 
 week_total_exp_ward = np.sum(week_total_exp_zonal,axis=1)
