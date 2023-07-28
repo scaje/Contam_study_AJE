@@ -13,7 +13,7 @@ These scripts uses the following scripts to run:
 * 'IZFlows_AJE.py' to set up the inter-zonal flow and natural ventilation values imported from CONTAM.
 * 'SE_Conc_eqns_AJE.py' contains the odes for the concentration transport system, and the suscpetible-exposed model which are solved in the code.
 * 'Contam_sim/IZFlows.csv' contains the inter-flow rates and natural ventilation rates which should be set as the defined filepath in each of the above scripts to extract the results from the contam simulation.
-* 'geom_code_AJE.py' contains the code to plot the heat map for the output results. This script requires a file path to the image of the required geometry, in this case a 12-zone hospital ward found in '12zone_geom.png'. 
+* 'geom_code_AJE.py' contains the code to plot the heat map for the output results. This script requires a file path to the image of the required geometry, in this case a 12-zone hospital ward found in '12zone_geom.png'. Please note that the star to indicate the infectors location is added manually after producing the heat map.
 
 
 
@@ -27,7 +27,7 @@ These scripts uses the following scripts to run:
 * 'Contam_sim/IZFlow_MV_windclsd3ACH.csv' contains the inter-flow rates and natural ventilation rates which should be set as the defined filepath for airflow solutions when conidering 'Mechanical Ventilation Only' case.
 * 'Contam_sim/IZFlow_MV_windop3ACH.csv' contains the inter-flow rates and natural ventilation rates which should be set as the defined filepath for airflow solutions when conidering 'Natural Ventialtion and Mechanical Ventilation' case.
 * 'Contam_sim/MechVentFlows3ACH.csv' contains the Mechancial ventialtion flow rates which should be set as the defined filepath for mechanical ventialtion solutions when conidering 'Natural Ventialtion and Mechanical Ventilation' case and the 'Mechanical Ventilation Only' case.
-* 'geom_code_AJE.py' contains the code to plot the heat map for the output results. This script requires a file path to the image of the required geometry, in this case a 12-zone hospital ward found in '12zone_geom.png'. 
+* 'geom_code_AJE.py' contains the code to plot the heat map for the output results. This script requires a file path to the image of the required geometry, in this case a 12-zone hospital ward found in '12zone_geom.png'. Please note that the star to indicate the infectors location is added manually after producing the heat map.
 
 
 3. For the comparison of simulated CO2 values with measured CO2 data use the following:
@@ -45,7 +45,7 @@ These scripts uses the following scripts to run:
 * 'NatVentOnly/ventflows_AJE.py' to set-up the ventilation matrix and inverse ventialtion matrix.
 * 'NatVentOnly/Extract_AJE' to set up the natural ventialtion rates which are exported from CONTAM.
 * 'Contam_sim/IZFlows.csv' contains the inter-flow rates and natural ventilation rates which should be set as the defined filepath in each of the above scripts to extract the results from the contam simulation.
-* 'geom_code_natvent_AJE.py' contains the code to plot the heat map for the output results. This script requires a file path to the image of the required geometry, in this case a 12-zone hospital ward found in '12zone_geom.png'. 
+* 'geom_code_natvent_AJE.py' contains the code to plot the heat map for the output results. This script requires a file path to the image of the required geometry, in this case a 12-zone hospital ward found in '12zone_geom.png'. Please note that the star to indicate the infectors location is added manually after producing the heat map.
 
 
 
