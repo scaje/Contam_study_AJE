@@ -95,7 +95,7 @@ for i in range(len(t)):
 ########################
 ######Desnity plot#######
 ########################
-avg = stat.mean(nat_vent_ward[:,0])
+avg = stat.mean(nat_vent_ward)
 x_ward_axis =np.linspace(0, int(max(nat_vent_ward)+2), int(max(nat_vent_ward)+3))#additional entries to account for 6ACH reccomendation out of data range
 
 plt.figure(dpi=750)#set dots per inch for better quality images
@@ -109,7 +109,7 @@ plt.vlines(avg,0,1,'r', label = 'Mean')# plots mean line
 plt.vlines(6,0,1,'g', label = 'HTM03-01 Guidance')
 plt.legend(loc='upper center',prop={'size': 10})#, bbox_to_anchor=(1, 0.5), title='')
 plt.xlabel('Extract Ventilation Rate [ACH]')
-plt.title('Natural Ventilation rates achieved across the ward')
+#plt.title('Natural Ventilation rates achieved across the ward')
 plt.xticks(x_ward_axis)
 plt.xlim(0,7)
 plt.yticks(np.arange(0,1.1,0.1))
@@ -137,7 +137,7 @@ print("--- Run Time = %s seconds ---" % (time.time() - start_time))
 ######Desnity plot with MECH Vent#######
 ########################
 natvent_3ACH = nat_vent_ward + 3
-avg_3ACH = stat.mean(natvent_3ACH[:,0])
+avg_3ACH = stat.mean(natvent_3ACH)
 plt.figure(dpi=750)#set dots per inch for better quality images
       
 sns.distplot(natvent_3ACH, hist=False, kde=True, 
