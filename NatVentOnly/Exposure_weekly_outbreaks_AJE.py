@@ -25,7 +25,9 @@ from SE_Conc_eqns_AJE import steadyodes ##imports predefined SE ode functions fo
 from output_contam import output_SE_Ct #This imports the plotting ode for all possible outputs for multizonal transient concentreation SE model
 from IzFlows_AJE import boundary_flow_contam #this import the function which changes the boundary flow values based on output from contam simulation
 from Extract_AJE import extract_flow_contam #this import the function which changes the extract ventiatlion in each zonebased on output from contam simulation
-
+import matplotlib.pyplot as plt
+import math
+from geom_code_AJE import geom_colormap #function for colouring zones in accordiing to risk factor
 
 
 start_time = time.time() #time code started running
@@ -260,3 +262,104 @@ print("--- Run Time = %s seconds ---" % (time.time() - start_time))
 
 
 ###################################################################
+
+
+##############PLOTTING #######################
+
+week_total_exp_all = Et_week_end
+
+#function for rounding up
+def round_up(n, decimals):
+    multiplier = 10 ** decimals
+    return math.ceil(n * multiplier) / multiplier
+
+
+
+#storing in weeks and zones again rather than in one vector (for zonal or weekly analysis)
+week_total_exp_zonal = np.empty((num_weeks,n))
+for i in range(num_weeks):
+    for j in range(n):
+        week_total_exp_zonal[i,j] = week_total_exp_all[int(j+i*12)]
+
+
+#rounding up values which are close to interger above such as 
+for i in range(num_weeks):
+    for j in range(n):
+        week_total_exp_zonal[i,j] = int(round_up(week_total_exp_zonal[i,j], 2))
+bins_zonal=[[] for i in range(n)]
+for i in range(n):
+    bins_zonal[i] = np.linspace(0,int(K_zonal[i]), int(K_zonal[i]+1))
+
+freq_zonal = [[] for i in range(n)]
+
+for i in range(n):
+    binwidth = 1
+    freq_zonal[i] ,bins_zonal[i] = np.histogram(week_total_exp_zonal[:,i], bins=int(K_zonal[i]+1), range=(0, int(K_zonal[i]+1)), density=True)
+
+
+week_total_exp_ward = np.sum(week_total_exp_zonal,axis=1)
+freq_ward, bins_ward = np.histogram(week_total_exp_ward, bins = int(np.sum(K_zonal)+1), range = (0,int(np.sum(K_zonal)+1)), density=True)
+
+
+
+#################### CALCULATING A RISK INDEX ##################################
+###############################################################################
+
+######## FOR EACH ZONE #####
+risk_idx_zonal = np.empty((n)) #intialising a vector for risk index for each zone
+E_x_zonal = np.empty((n)) #initialising empty vector for expected value
+
+
+for i in range(n):
+    E_xi=0 # initialsie epxetced value
+    for j in range(len(freq_zonal[i])):
+        
+        E_xi = E_xi + (freq_zonal[i][j] * bins_zonal[i][j])# caluclated the expected value for each exposure in each zone
+
+    
+    E_x_zonal[i] = E_xi #store vector for epxected values 
+    if K_zonal[i]==0:
+        risk_idx_zonal[i] = 0
+    else:
+        risk_idx_zonal[i] = E_x_zonal[i] / int(K_zonal[i]) #caluclated probability risk index by dividing by total susceptible
+    
+print('Expected exposure value in each zone = %s'%(E_x_zonal))
+print('Risk Index Factor in Each Zone = %s' %(risk_idx_zonal))
+
+
+######## FOR THE WHOLE WARD #####
+#initialise
+risk_idx_ward = 0 #intialising a vector for risk index for each zone
+E_x_ward = 0 #initialising empty vector for expected value
+
+#calculate
+for i in range(len(freq_ward)):
+    E_x_ward = E_x_ward + (freq_ward[i]*bins_ward[i])
+    risk_idx_ward = E_x_ward / int(np.sum(K_zonal))
+    
+print('Expected exposure value in each zone = %s'%(E_x_ward))
+print('Risk Index Factor in Each Zone = %s' %(risk_idx_ward))
+
+
+
+########### Plotting for war dhistogram with risk index ########
+
+#Probabilities for histogram across whole ward over time 
+week_total_exp_ward = np.sum(week_total_exp_zonal,axis=1)
+freq_ward, bins_ward = np.histogram(week_total_exp_ward, bins = int(np.sum(K_zonal)+1), range = (0,int(np.sum(K_zonal)+1)), density=True)
+x_ward =np.linspace(0, int(np.sum(K_zonal)), int(np.sum(K_zonal)+1))
+plt.figure(dpi=750)#set dots per inch for better quality images
+plt.bar(x_ward, freq_ward)
+plt.xlabel('Exposures [people]')
+plt.xticks(x_ward)
+plt.yticks(np.arange(0,1.1,0.1))
+plt.ylabel('Probability')
+#plt.title('Probability of Weekly Exposures over a 6-month period across the ward')
+plt.text(3, 0.8, 'Risk Index = %s' %(round(risk_idx_ward,4)), fontsize = 22, bbox = dict(facecolor = 'red', alpha = 0.5)) #Adding text inside a rectangular box by using the keyword 'bbox'
+plt.show()
+
+######################### COLOUR MAP ON GEOMERTY #########################
+
+#call function from other script with geomerty coded - include risk index for each zone, and for the ward as arguments
+
+geom_colormap(risk_idx_zonal, risk_idx_ward) #calls the function which is already defined
