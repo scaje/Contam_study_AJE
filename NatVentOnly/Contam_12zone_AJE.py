@@ -205,31 +205,23 @@ plt.legend(loc='center left',prop={'size': 8}, bbox_to_anchor=(1, 0.5), title='Z
 plt.show()
 
 
-#PROBABILITY DENSITY
+#PROBABILITY DENSITY HISTOGRAM
 conc_all = Ct.flatten()#this turns the vector Ct into a single column vector array of numbers
 
-
-plt.figure(dpi=750)#set dots per inch for better quality images
-sns.distplot(conc_all, hist=False, kde=True, 
-             bins=int(max(conc_all)+ 0.05), color = 'tab:blue', 
-             hist_kws={'edgecolor':'black'},
-             kde_kws={'linewidth': 2})# Plot formatting     
-#plt.legend(loc='upper center',prop={'size': 10})#, bbox_to_anchor=(1, 0.5), title='')
-plt.xlabel('Concentration [$qm^{-3}$]')
+binwidth=0.02
+plt.figure(dpi=750)
+newfreq_conc_all ,newbins_conc_all, newpatches = plt.hist(conc_all, bins=np.arange(min(conc_all), max(conc_all) + binwidth, binwidth), density=True)
+plt.ylabel('Probability density')
 #plt.title('Concentration over a 6-month period')
-#plt.yticks(np.arange(0,1.1,0.1))
+plt.xlabel('Concentration [$qm^{-3}$]')
 plt.xlim(0,3.5)
-plt.ylabel('Probability Density')
 
-sub_axes = plt.axes([.5, .5, .35, .35]) #original [.6, .6, .25, .25]
+
+sub_axes1 = plt.axes([.35, .35, .5, .5]) 
 
 # plot the zoomed portion
-sns.distplot(conc_all, hist=False, kde=True, 
-             bins=int(max(conc_all)+ 0.05), color = 'tab:blue', 
-             hist_kws={'edgecolor':'black'},
-             kde_kws={'linewidth': 2}, ax=sub_axes)# Plot formatting
-sub_axes.set_xlim([1,3.5])
-sub_axes.set_ylim([0,0.07])
-#plt.xticks(x_labels[2:], labels=xlabels[2:])
+sub_axes1.hist(conc_all, bins=np.arange(min(conc_all), max(conc_all) + binwidth, binwidth), density=True)
+plt.xlim(1, 3.5)
+plt.ylim(0,0.0075)
 
 plt.show()

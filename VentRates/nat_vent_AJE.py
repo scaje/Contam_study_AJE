@@ -108,7 +108,7 @@ sns.distplot(nat_vent_ward, hist=False, kde=True,
 plt.vlines(avg,0,1,'r', label = 'Mean')# plots mean line
 plt.vlines(6,0,1,'g', label = 'HTM03-01 Guidance')
 plt.legend(loc='upper center',prop={'size': 10})#, bbox_to_anchor=(1, 0.5), title='')
-plt.xlabel('Extract Ventilation Rate [ACH]')
+plt.xlabel('Ventilation Rate [ACH]')
 #plt.title('Natural Ventilation rates achieved across the ward')
 plt.xticks(x_ward_axis)
 plt.xlim(0,7)
@@ -148,7 +148,7 @@ sns.distplot(natvent_3ACH, hist=False, kde=True,
 plt.vlines(avg_3ACH,0,1,'r', label = 'Mean')# plots mean line
 plt.vlines(6,0,1,'g', label = 'HTM03-01 Guidance')
 plt.legend(loc='upper right',prop={'size': 9})#, bbox_to_anchor=(1, 0.5), title='')
-plt.xlabel('Extract Ventilation Rate [ACH]')
+plt.xlabel('Ventilation Rate [ACH]')
 #plt.title('Natural Ventilation + 3 ACH')
 plt.xticks(np.arange(0,11,1))#x_ward_axis+3)
 plt.xlim(0,10)
