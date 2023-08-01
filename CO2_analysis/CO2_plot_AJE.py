@@ -4,17 +4,15 @@ Created on Wed Nov 16 13:21:38 2022
 
 @author: scaje
 
-This script is to be used for plotting imported contaminant data for a 
-multi-zonal environment from CONTAM simulations. 
-This scirpt should be suitable for n zones, and any length of time. 
-The time period must be preset by the reader as any exported
-time data is ignored when the .csv is read and inputted into a vector. 
+This script is used as part of the study entitled "Assessing the effects of transient weather conditions on 
+airborne transmission risk in naturally ventilated hospitals."; 
+Alexander J. Edwards, Marco-Felipe King,  Martin Lopez-Garcia, Daniel Peckham, Catherine J. Noakes.".
+The user should refer to the README file in the GitHub repository for a description on its use.
 
-
-Define the filepath for the exported results and parameters before running the script. 
+AJE
 
 """
-from read_csv_co2 import ReadCSV
+from read_csv_co2_AJE import ReadCSV
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import cm #colour map package
@@ -77,7 +75,7 @@ plt.plot(t_plot,contaminant_data[:,0], label='Ambient' )
 #plt.title("$CO_2$ concentration in each zone")
 plt.xlabel("Time [Months]")
 plt.xticks(np.arange(0, np.max(t_plot), 1), month_label, rotation=45)#arrange in steps of 1 from 0 to max value - using mnth_label as x labels on a slant of 45 degrees
-plt.yticks(np.arange(np.min(np.min(contaminant_data)),np.max(np.max(contaminant_data)),200))
+plt.yticks(np.arange(np.min(np.min(contaminant_data)),np.max(np.max(contaminant_data))+200,200))
 plt.ylabel("$CO_2$ [ppm]")
 plt.legend(loc='center left',prop={'size': 8}, bbox_to_anchor=(1, 0.5), title='Concentration')
 plt.show()

@@ -1,5 +1,9 @@
 """
-This script loads in a CSV file and extracts the values for use in other python scripts"""
+This script is used as part of the study entitled "Assessing the effects of transient weather conditions on 
+airborne transmission risk in naturally ventilated hospitals."; 
+Alexander J. Edwards, Marco-Felipe King,  Martin Lopez-Garcia, Daniel Peckham, Catherine J. Noakes.".
+The user should refer to the README file in the GitHub repository for a description on its use.
+"""
 
 import csv #csv package is imported
 import numpy as np #import numpy

@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Jan 31 15:50:49 2023
-This script offers a comparison between experimental CO2 values and CONTAM simulation CO2 values for the month of October. 
-The simulation CO2 values come from the increased_leakage study. 
+This script is used as part of the study entitled "Assessing the effects of transient weather conditions on 
+airborne transmission risk in naturally ventilated hospitals."; 
+Alexander J. Edwards, Marco-Felipe King,  Martin Lopez-Garcia, Daniel Peckham, Catherine J. Noakes.".
+The user should refer to the README file in the GitHub repository for a description on its use.
 
 @author: scaje
 """
-from read_csv_gen import ReadCSV
+from read_csv_gen_AJE import ReadCSV
 import numpy as np
 import matplotlib.pyplot as plt
 
