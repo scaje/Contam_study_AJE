@@ -19,10 +19,10 @@ These scripts uses the following scripts to run:
 
 
 2. To reproduce the concentration of pathogen solution and predicted exposure solution for 2 cases of 'Natural ventialtion and Mechanical' and 'mechanical ventilation only':
-Use script 'MechVent/Contam_12zone_MV_AJE.py' for the full 6-month solution of the quanta concentration and predicted exposures. Use script 'MechVent/Exposure_weekly_MV_AJE.py' for the weekly exposures study, providing the results to be used for the predicted exposure analysis.
+Use script 'MechVent/Contam_12zone_MV_AJE.py' for the full 6-month solution of the quanta concentration and predicted exposures. Use script 'MechVent/Exposure_weekly_MV_AJE.py' for the weekly exposures study, providing the results to be used for the predicted exposure analysis. Note: the user should uncomment and define the appropriate file path at the beginning of the script depending on which scenario to run (windows closed or windows open). The corresponding file path should be defined under the variable 'filepath'. 
 These scripts uses the following scripts to run:
 * 'MechVent/ventflows_MV_AJE.py' to set-up the ventilation matrix and inverse ventialtion matrix.
-* 'MechVent/Extract_MV_AJE' to set up the natural ventialtion rates (where applicale) and the mechanical ventialtion rates which are exported from CONTAM.
+* 'MechVent/Extract_MV_AJE' to set up the natural ventialtion rates (where applicable) and the mechanical ventialtion rates which are exported from CONTAM.
 * 'IZFlows_AJE.py' to set up the inter-zonal flow values imported from CONTAM.
 * 'read_csv_AJE' is used within 'NatVentOnly/Extract_AJE' and 'IZFlows_AJE.py' to read the excel .csv file with the exported CONTAM results.
 * 'SE_Conc_eqns_AJE.py' contains the odes for the concentration transport system, and the suscpetible-exposed model which are solved in the code.
