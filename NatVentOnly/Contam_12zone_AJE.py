@@ -15,7 +15,7 @@ Created 25/01/2023 AJE
 import numpy as np
 from scipy.integrate import odeint #for solving odes
 import time #for live run time of code
-import ventflows_AJE as VentMatrix #imports setup for 6 zone ward ventilaton setting from another file where it is already defined
+import ventflows_AJE as VentMatrix #imports setup for ventilaton setting from another file where it is already defined
 from ventflows_AJE import VentilationMatrix #import function which defines ventilation matrix
 from ventflows_AJE import InvVentilationMatrix #imports function which defines inverse ventilation matrix
 from SE_Conc_eqns_AJE import odes #imports predefined SE ode functions for transient concentration
