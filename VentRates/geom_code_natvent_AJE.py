@@ -15,6 +15,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle 
 from matplotlib.pyplot import cm #colour map package
+import numpy as np
 
 
 
@@ -41,11 +42,11 @@ def geom_colormap_natvent(nat_vent_zonal_avg, nat_vent_ward_avg):
     #sorting colour maps
     #nat_vent_zonal_avg = [0.14423077, 0, 0.61538462, 0.61538462, 0, 0, 0, 0, 0, 0.96153846, 0.5,0.03846154]
     #risk_idx_ward  = 0.3581730769230769
-    nat_vent_zonal_avg = nat_vent_zonal_avg/max(nat_vent_zonal_avg)
-    cmap = cm.Blues(nat_vent_zonal_avg)
+    nat_vent_zonal_avg_cmap = nat_vent_zonal_avg/max(nat_vent_zonal_avg)
+    cmap = cm.Blues(nat_vent_zonal_avg_cmap)
     ######## defining a colour map for text box of avg ward vent rate
-    nat_vent_ward_avg = nat_vent_ward_avg/max(nat_vent_zonal_avg)
-    ward_cmap = cm.Blues(nat_vent_ward_avg)
+    nat_vent_ward_avg_cmap = nat_vent_ward_avg/max(nat_vent_zonal_avg)
+    ward_cmap = cm.Blues(nat_vent_ward_avg_cmap)
     ########
     
     # Create a Rectangle patch for each zone, following coordinates inline with original image axis 
@@ -87,8 +88,10 @@ def geom_colormap_natvent(nat_vent_zonal_avg, nat_vent_ward_avg):
     m = cm.ScalarMappable(cmap=Blues)
     m.set_array([])
     cbar_ticks = [0,0.2,0.4,0.6,0.8,1.0]
-    cbar_label = [0,0.51,1.02,1.53,2.04,2.54] #this is calculated by multiplying cbar_ticks*max(nat_vent_zonal_avg) for each entry
-    cbar = plt.colorbar(m, ticks=cbar_label, label = 'Ventilation Rate (ACH)')
+    cbar_label = np.empty(len(cbar_ticks))
+    cbar_label = [round(cbar_ticks[i]*max(nat_vent_zonal_avg),2) for i in range(len(cbar_ticks))] #[0,0.51,1.02,1.53,2.04,2.54] #this is calculated by multiplying cbar_ticks*max(nat_vent_zonal_avg) for each entry
+    print("CBAR_LABEL =" +str(cbar_label))
+    cbar = plt.colorbar(m, ticks=cbar_ticks, label = 'Ventilation Rate (ACH)')
     cbar.set_ticks(cbar_ticks)
     cbar.set_ticklabels(cbar_label)
     ########

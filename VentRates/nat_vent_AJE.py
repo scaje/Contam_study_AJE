@@ -93,69 +93,64 @@ for i in range(len(t)):
 
 ################## PLOTTING ###################
 ########################
-######Desnity plot#######
-########################
+###### Nat vent #######
 avg = stat.mean(nat_vent_ward)
-x_ward_axis =np.linspace(0, int(max(nat_vent_ward)+2), int(max(nat_vent_ward)+3))#additional entries to account for 6ACH reccomendation out of data range
+
+###### MECH Vent#######
+natvent_3ACH = nat_vent_ward + 3
+avg_3ACH = stat.mean(natvent_3ACH)
+
+
+############################################################################
+############################### NAT VENT & Natvent and mechvent on the same plot.  all doors closed
+######################################################################################
 
 plt.figure(dpi=750)#set dots per inch for better quality images
 sns.distplot(nat_vent_ward, hist=False, kde=True, 
              bins=int(max(nat_vent_ward)+1), color = 'cornflowerblue', 
              hist_kws={'edgecolor':'black'},
-             kde_kws={'linewidth': 2})# Plot formatting
+             kde_kws={'linewidth': 2}, label='NV only')# Plot formatting
       
 
-plt.vlines(avg,0,1,'r', label = 'Mean')# plots mean line
-plt.vlines(6,0,1,'g', label = 'HTM03-01 Guidance')
-plt.legend(loc='upper center',prop={'size': 10})#, bbox_to_anchor=(1, 0.5), title='')
+plt.vlines(avg,0,1.4,'r', label = 'Mean - NV Only')# plots mean line
+plt.vlines(avg_3ACH,0,1.4,'darkorange', label = 'Mean - NV + 3 ACH MV')# plots mean line
+plt.vlines(6,0,1.4,'g', label = 'HTM03-01 Guidance')
+
+
+
+sns.distplot(natvent_3ACH, hist=False, kde=True, 
+             bins=int(max(natvent_3ACH)+1), color = 'darkorchid', 
+             hist_kws={'edgecolor':'black'},
+             kde_kws={'linewidth': 2}, label='NV + 3 ACH MV')#, label='Natural Ventilaion + 3 ACH')
+
+
+
+plt.legend(loc='center left',prop={'size': 8}, bbox_to_anchor=(0.78, 0.5))#plt.legend(loc='upper right',prop={'size': 9})#, bbox_to_anchor=(1, 0.5), title='')
 plt.xlabel('Ventilation Rate [ACH]')
-#plt.title('Natural Ventilation rates achieved across the ward')
-plt.xticks(x_ward_axis)
-plt.xlim(0,7)
-plt.yticks(np.arange(0,1.1,0.1))
-plt.ylim(0,1)
+#plt.title('Natural Ventilation + 3 ACH')
+plt.xticks(np.arange(0,8,1))#x_ward_axis+3) #  for all_door_clsd (0,8,1)
+plt.xlim(0,8) #for all_door_clsd (0,8)
+#for all door clsd plt.yticks(np.arange(0,1.6,0.2)) 
+plt.ylim(0,1.4) #for all door clsd (0, 0.14)
 plt.ylabel('Density')
 plt.show()
+
+
+
 ############################################################################
 ######################### COLOUR MAP ON GEOMERTY #########################
 
 #call function from other script with geomerty coded - include risk index for each zone, and for the ward as arguments
 nat_vent_zonal_avg=np.empty(n)
 for i in range(n):
-    nat_vent_zonal_avg[i] = np.sum(nat_vent_zonal[:,i])/len(nat_vent_zonal[:,i])
+    nat_vent_zonal_avg[i] = stat.mean(nat_vent_zonal[:,i]) #np.sum(nat_vent_zonal[:,i])/len(nat_vent_zonal[:,i])
 
-nat_vent_ward_avg = stat.mean(nat_vent_zonal_avg)
-
+nat_vent_ward_avg = stat.mean(nat_vent_ward) #stat.mean(nat_vent_zonal_avg)
 
 
 geom_colormap_natvent(nat_vent_zonal_avg, nat_vent_ward_avg) #calls the function which is already defined
-print("--- Run Time = %s seconds ---" % (time.time() - start_time))
+########################################################################
 
-
-
-########################
-######Desnity plot with MECH Vent#######
-########################
-natvent_3ACH = nat_vent_ward + 3
-avg_3ACH = stat.mean(natvent_3ACH)
-plt.figure(dpi=750)#set dots per inch for better quality images
-      
-sns.distplot(natvent_3ACH, hist=False, kde=True, 
-             bins=int(max(natvent_3ACH)+1), color = 'cornflowerblue', 
-             hist_kws={'edgecolor':'black'},
-             kde_kws={'linewidth': 2})#, label='Natural Ventilaion + 3 ACH')
-
-plt.vlines(avg_3ACH,0,1,'r', label = 'Mean')# plots mean line
-plt.vlines(6,0,1,'g', label = 'HTM03-01 Guidance')
-plt.legend(loc='upper right',prop={'size': 9})#, bbox_to_anchor=(1, 0.5), title='')
-plt.xlabel('Ventilation Rate [ACH]')
-#plt.title('Natural Ventilation + 3 ACH')
-plt.xticks(np.arange(0,11,1))#x_ward_axis+3)
-plt.xlim(0,10)
-plt.yticks(np.arange(0,1.1,0.1))
-plt.ylim(0,1)
-plt.ylabel('Density')
-plt.show()
 
 
 print("--- Run Time = %s seconds ---" % (time.time() - start_time))
