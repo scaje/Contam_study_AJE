@@ -221,8 +221,8 @@ sub_axes1 = plt.axes([.35, .35, .5, .5])
 
 # plot the zoomed portion
 sub_axes1.hist(conc_all, bins=np.arange(min(conc_all), max(conc_all) + binwidth, binwidth), density=True)
-plt.xlim(1, 3.5)
-plt.ylim(0,0.0075)
+plt.xlim(1.5, 4)
+plt.ylim(0,0.009)
 
 plt.show()
 
