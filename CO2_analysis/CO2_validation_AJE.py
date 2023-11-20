@@ -29,32 +29,33 @@ summary_data_exp[2]=(((co2_data_exp>1200).sum())/len(co2_data_exp))*100
 
 
 ##########################################################
-#simulation - all zones 
+#simulation - each zone -All doors Closed
+##########################################################
 ##########################################################
 
-co2_data_sim = ReadCSV(r'CO2_analysis\CO2_data_OctOnly.csv')[1][:,1:] # extractin co2 data for zones only - ignoring amb
+co2_data_sim = ReadCSV(r'CO2_analysis\CO2_data_OctOnly_Allclsd.csv')[1][:,1:] # extractin co2 data for zones only - ignoring amb
 
 
-co2_data_sim_new = []
-
-#loop to combine all co2 values from each zone and time step into one vector
-for i in range(np.shape(co2_data_sim)[0]):
-    for j in range(np.shape(co2_data_sim)[1]):
-        co2_data_sim_new = np.append(co2_data_sim_new, co2_data_sim[i,j])
-        
-
-
-##########################################################
-#simulation - each zone
-##########################################################
-
-
-summary_data_sim = np.zeros((3,int(np.shape(co2_data_sim)[1])))
+summary_data_sim1 = np.zeros((3,int(np.shape(co2_data_sim)[1])))
 for i in range(int(np.shape(co2_data_sim)[1])):
-    summary_data_sim[0,i] = (((co2_data_sim[:,i]<800).sum())/len(co2_data_sim[:,i]))*100
-    summary_data_sim[1,i]=((((co2_data_sim[:,i]<1200).sum()) - ((co2_data_sim[:,i]<800).sum()))/len(co2_data_sim[:,i]))*100
-    summary_data_sim[2,i]=(((co2_data_sim[:,i]>1200).sum())/len(co2_data_sim[:,i]))*100
+    summary_data_sim1[0,i] = (((co2_data_sim[:,i]<800).sum())/len(co2_data_sim[:,i]))*100
+    summary_data_sim1[1,i]=((((co2_data_sim[:,i]<1200).sum()) - ((co2_data_sim[:,i]<800).sum()))/len(co2_data_sim[:,i]))*100
+    summary_data_sim1[2,i]=(((co2_data_sim[:,i]>1200).sum())/len(co2_data_sim[:,i]))*100
+    
+    
+##########################################################
+#simulation - each zone - half doors clsd
+##########################################################
+##########################################################
 
+co2_data_sim = ReadCSV(r'CO2_analysis\CO2_data_OctOnly_Halfclsd.csv')[1][:,1:] # extractin co2 data for zones only - ignoring amb
+
+
+summary_data_sim2 = np.zeros((3,int(np.shape(co2_data_sim)[1])))
+for i in range(int(np.shape(co2_data_sim)[1])):
+    summary_data_sim2[0,i] = (((co2_data_sim[:,i]<800).sum())/len(co2_data_sim[:,i]))*100
+    summary_data_sim2[1,i]=((((co2_data_sim[:,i]<1200).sum()) - ((co2_data_sim[:,i]<800).sum()))/len(co2_data_sim[:,i]))*100
+    summary_data_sim2[2,i]=(((co2_data_sim[:,i]>1200).sum())/len(co2_data_sim[:,i]))*100  
     
     
     
@@ -67,22 +68,23 @@ xlabel=['400-800ppm', '800-1200ppm', '>1200ppm']
 
 
 plt.figure(dpi=750)#set dots per inch for better quality images
-plt.bar(x[0] - width, summary_data_exp[0], 0.3,color='r', label='Experimental')#, label = '400-800ppm')
-plt.bar(x[1] - width , summary_data_exp[1], 0.3, color = 'r')#, label = '800-1200ppm')
-plt.bar(x[2] - width, summary_data_exp[2], 0.3, color = 'r')#, label = '>1200ppm')
+plt.bar(x[0] - 2*width, summary_data_exp[0], 0.3,color='m', label='Experimental')#, label = '400-800ppm')
+plt.bar(x[1] - 2*width , summary_data_exp[1], 0.3, color = 'm')#, label = '800-1200ppm')
+plt.bar(x[2] - 2*width, summary_data_exp[2], 0.3, color = 'm')#, label = '>1200ppm')
 
-plt.bar(x[0] + width, summary_data_sim[0,4], 0.3, color = 'b' , label='Simulation - Zone 5')#, label = '400-800ppm')
-plt.bar(x[1] + width, summary_data_sim[1,4], 0.3, color = 'b' )#, label = '800-1200ppm')
-plt.bar(x[2] + width, summary_data_sim[2,4], 0.3, color = 'b')#, label = '>1200ppm')
+plt.bar(x[0] , summary_data_sim2[0,4], 0.3, color = 'b' , label='Simulation - Half doors Closed')#, label = '400-800ppm')
+plt.bar(x[1] , summary_data_sim2[1,4], 0.3, color = 'b' )#, label = '800-1200ppm')
+plt.bar(x[2] , summary_data_sim2[2,4], 0.3, color = 'b')#, label = '>1200ppm')
 
-
+plt.bar(x[0] + 2*width, summary_data_sim1[0,4], 0.3, color = 'orange' , label='Simulation - All doors closed')#, label = '400-800ppm')
+plt.bar(x[1] + 2*width, summary_data_sim1[1,4], 0.3, color = 'orange' )#, label = '800-1200ppm')
+plt.bar(x[2] + 2*width, summary_data_sim1[2,4], 0.3, color = 'orange')#, label = '>1200ppm')
 
 #plt.xticks(np.arange(0, np.max(t_plot), 1), month_label, rotation=45)#arrange in steps of 1 from 0 to max value - using mnth_label as x labels on a slant of 45 degrees
 #plt.xlabel("Time of year [Months]")
 plt.xticks(np.arange(1,4,1),xlabel)
 plt.yticks(np.arange(0,110,10))
 plt.ylabel("Percentage %")
-plt.title("$CO_2$ values for Oct - Comparison")
+#plt.title("$CO_2$ values for Oct - Comparison")
 plt.legend()
 plt.show()
-
