@@ -40,7 +40,7 @@ These scripts use the following to run:
 * 'read_csv_gen_AJE' is used to read the excel .csv file with the exported CONTAM results.
 
 
-4. The weather file used throughout can be found in 'GBR_ENG_Leeds.Gen.wth'.
+4. The weather file used throughout can be found in 'weather_file/GBR_ENG_Leeds.Gen.wth'.
 
 
 5. For the plotting of the natural ventialtion rates achieved use the script labelled 'VentRates/nat_vent_AJE.py'. This script uses the following scripts:
@@ -49,6 +49,10 @@ These scripts use the following to run:
 * 'read_csv_AJE' is used within 'NatVentOnly/Extract_AJE' and 'IZFlows_AJE.py' to read the excel .csv file with the exported CONTAM results.
 * 'Contam_sim/IZFlows.csv' contains the inter-flow rates and natural ventilation rates which should be set as the defined filepath in each of the above scripts to extract the results from the contam simulation.
 * 'VentRates/geom_code_natvent_AJE.py' contains the code to plot the heat map for the output results. This script requires a file path to the image of the required geometry, in this case a 12-zone hospital ward found in '12zone_geom.png'. Please note that the star to indicate the infectors location is added manually after producing the heat map.
+
+
+6. To reproduce the wind rose plot, use the script called 'weather_file/windrose_AJE.py'. This script uses the following: 
+* 'weather_file/GBR_ENG_Leeds.Wea.GEN.csv' is a .csv file containg the weather data. This should be set as the filepath within the above script in order to produce the windrose. This file is a .csv version of the original .wth weather file found in 'weather_file/GBR_ENG_Leeds.Wea.GEN.wth'. 
 
 
 
