@@ -40,14 +40,10 @@ These scripts use the following to run:
 * 'read_csv_gen_AJE' is used to read the excel .csv file with the exported CONTAM results.
 
 
-4. For the general CO2 Analysis plot using the simulated CO2 data from CONTAM, one should run the script 'CO2_analysis/CO2_plot_AJE.py', which uses the following:
-* 'CO2_analysis/Co2_data.csv' contains all of the simulated CO2 data for each zone which is used in the script and the location of this file should be set as the filepath in the script.
-* 'CO2_analysis/read_csv_co2_AJE.py' is used to read the simulated CO2 data from the CONTAM simulation.
+4. The weather file used throughout can be found in 'GBR_ENG_Leeds.Gen.wth'.
 
 
-5. The weather file used throughout can be found in 'GBR_ENG_Leeds.Gen.wth'.
-
-6. For the plotting of the natural ventialtion rates achieved use the script labelled 'VentRates/nat_vent_AJE.py'. This script uses the following scripts:
+5. For the plotting of the natural ventialtion rates achieved use the script labelled 'VentRates/nat_vent_AJE.py'. This script uses the following scripts:
 * 'VentRates/geom_code_natvent_AJE.py' this contains the heat map code for the natural ventialtion case.
 * 'NatVentOnly/ventflows_AJE.py' to set-up the ventilation matrix and inverse ventialtion matrix.
 * 'NatVentOnly/Extract_AJE' to set up the natural ventialtion rates which are exported from CONTAM.
