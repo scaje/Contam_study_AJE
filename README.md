@@ -44,12 +44,11 @@ These scripts use the following to run:
 
 
 5. For the plotting of the natural ventialtion rates achieved use the script labelled 'VentRates/nat_vent_AJE.py'. This script uses the following scripts:
-* 'VentRates/geom_code_natvent_AJE.py' this contains the heat map code for the natural ventialtion case.
 * 'NatVentOnly/ventflows_AJE.py' to set-up the ventilation matrix and inverse ventialtion matrix.
 * 'NatVentOnly/Extract_AJE' to set up the natural ventialtion rates which are exported from CONTAM.
 * 'read_csv_AJE' is used within 'NatVentOnly/Extract_AJE' and 'IZFlows_AJE.py' to read the excel .csv file with the exported CONTAM results.
 * 'Contam_sim/IZFlows.csv' contains the inter-flow rates and natural ventilation rates which should be set as the defined filepath in each of the above scripts to extract the results from the contam simulation.
-* 'geom_code_natvent_AJE.py' contains the code to plot the heat map for the output results. This script requires a file path to the image of the required geometry, in this case a 12-zone hospital ward found in '12zone_geom.png'. Please note that the star to indicate the infectors location is added manually after producing the heat map.
+* 'VentRates/geom_code_natvent_AJE.py' contains the code to plot the heat map for the output results. This script requires a file path to the image of the required geometry, in this case a 12-zone hospital ward found in '12zone_geom.png'. Please note that the star to indicate the infectors location is added manually after producing the heat map.
 
 
 
