@@ -68,15 +68,15 @@ xlabel=['400-800ppm', '800-1200ppm', '>1200ppm']
 
 
 plt.figure(dpi=750)#set dots per inch for better quality images
-plt.bar(x[0] - 2*width, summary_data_exp[0], 0.3,color='m', label='Experimental')#, label = '400-800ppm')
+plt.bar(x[0] - 2*width, summary_data_exp[0], 0.3,color='m', label='Measured $CO_2$')#, label = '400-800ppm')
 plt.bar(x[1] - 2*width , summary_data_exp[1], 0.3, color = 'm')#, label = '800-1200ppm')
 plt.bar(x[2] - 2*width, summary_data_exp[2], 0.3, color = 'm')#, label = '>1200ppm')
 
-plt.bar(x[0] , summary_data_sim2[0,4], 0.3, color = 'b' , label='Simulation - Half doors Closed')#, label = '400-800ppm')
+plt.bar(x[0] , summary_data_sim2[0,4], 0.3, color = 'b' , label='Simulated $CO_2$ - Half doors Closed')#, label = '400-800ppm')
 plt.bar(x[1] , summary_data_sim2[1,4], 0.3, color = 'b' )#, label = '800-1200ppm')
 plt.bar(x[2] , summary_data_sim2[2,4], 0.3, color = 'b')#, label = '>1200ppm')
 
-plt.bar(x[0] + 2*width, summary_data_sim1[0,4], 0.3, color = 'orange' , label='Simulation - All doors closed')#, label = '400-800ppm')
+plt.bar(x[0] + 2*width, summary_data_sim1[0,4], 0.3, color = 'orange' , label='Simulated $CO_2$ - All doors closed')#, label = '400-800ppm')
 plt.bar(x[1] + 2*width, summary_data_sim1[1,4], 0.3, color = 'orange' )#, label = '800-1200ppm')
 plt.bar(x[2] + 2*width, summary_data_sim1[2,4], 0.3, color = 'orange')#, label = '>1200ppm')
 
