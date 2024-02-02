@@ -45,34 +45,60 @@ def extract_flow_contam(filepath,n,t,geometry, filepathMV):
     #extract in zone 8 = - amb to zone 9 -- idx=18
     #extract in zone 9 = - amb to zone 9 -- idx=19
     #extract in zone 10 = - amb to zone 10 -- idx=20
-    extract_flow[0] = -(flows[int((t[0]/30)*2),0] + flows[int((t[0]/30)*2+1),0]) + (MechVent[int((t[0]/30)*2),2] + MechVent[int((t[0]/30)*2+1),2])
+    
+    
+    #dealing with natural ventialtion first
+    extract_flow[0] = -(flows[int((t[0]/30)*2),0] + flows[int((t[0]/30)*2+1),0]) 
 
-    extract_flow[1] = -(flows[int((t[0]/30)*2),3] + flows[int((t[0]/30)*2+1),3])+ (MechVent[int((t[0]/30)*2),4] + MechVent[int((t[0]/30)*2+1),4])
+    extract_flow[1] = -(flows[int((t[0]/30)*2),3] + flows[int((t[0]/30)*2+1),3])
 
-    extract_flow[2] = -(flows[int((t[0]/30)*2),1] + flows[int((t[0]/30)*2+1),1])+ (MechVent[int((t[0]/30)*2),0] + MechVent[int((t[0]/30)*2+1),0])
+    extract_flow[2] = -(flows[int((t[0]/30)*2),1] + flows[int((t[0]/30)*2+1),1])
 
-    extract_flow[3] = -(flows[int((t[0]/30)*2),2] + flows[int((t[0]/30)*2+1),2])+ (MechVent[int((t[0]/30)*2),1] + MechVent[int((t[0]/30)*2+1),1])
+    extract_flow[3] = -(flows[int((t[0]/30)*2),2] + flows[int((t[0]/30)*2+1),2])
 
-    extract_flow[4] = + (MechVent[int((t[0]/30)*2),3] + MechVent[int((t[0]/30)*2+1),3])
 
-    extract_flow[5] = -(flows[int((t[0]/30)*2),9] + flows[int((t[0]/30)*2+1),9])+ (MechVent[int((t[0]/30)*2),5] + MechVent[int((t[0]/30)*2+1),5])
+    extract_flow[5] = -(flows[int((t[0]/30)*2),9] + flows[int((t[0]/30)*2+1),9])
 
-    extract_flow[6] = + (MechVent[int((t[0]/30)*2),6] + MechVent[int((t[0]/30)*2+1),6])
     
-    extract_flow[7] = flows[int((t[0]/30)*2),12] + flows[int((t[0]/30)*2+1),12]+ (MechVent[int((t[0]/30)*2),7] + MechVent[int((t[0]/30)*2+1),7])
+    extract_flow[7] = flows[int((t[0]/30)*2),12] + flows[int((t[0]/30)*2+1),12]
     
-    extract_flow[8] = -(flows[int((t[0]/30)*2),17] + flows[int((t[0]/30)*2+1),17])+ (MechVent[int((t[0]/30)*2),8] + MechVent[int((t[0]/30)*2+1),8])
+    extract_flow[8] = -(flows[int((t[0]/30)*2),17] + flows[int((t[0]/30)*2+1),17])
     
-    extract_flow[9] = -(flows[int((t[0]/30)*2),18] + flows[int((t[0]/30)*2+1),18])+ (MechVent[int((t[0]/30)*2),9] + MechVent[int((t[0]/30)*2+1),9])
+    extract_flow[9] = -(flows[int((t[0]/30)*2),18] + flows[int((t[0]/30)*2+1),18])
     
-    extract_flow[10] = -(flows[int((t[0]/30)*2),19] + flows[int((t[0]/30)*2+1),19])+ (MechVent[int((t[0]/30)*2),10] + MechVent[int((t[0]/30)*2+1),10])
+    extract_flow[10] = -(flows[int((t[0]/30)*2),19] + flows[int((t[0]/30)*2+1),19])
     
-    extract_flow[11] = -(flows[int((t[0]/30)*2),20] + flows[int((t[0]/30)*2+1),20])+ (MechVent[int((t[0]/30)*2),11] + MechVent[int((t[0]/30)*2+1),11])
+    extract_flow[11] = -(flows[int((t[0]/30)*2),20] + flows[int((t[0]/30)*2+1),20])
     
-    
+    #account for any natural ventialtion that is supply not extract. If supply set as zero
     for i in range(n):
         if extract_flow[i]<0:
             extract_flow[i] = 0
+            
+    #add any additional mechanical ventialtion to each zone
+    extract_flow[0] = extract_flow[0] + (MechVent[int((t[0]/30)*2),2] + MechVent[int((t[0]/30)*2+1),2])
+
+    extract_flow[1] = extract_flow[1]+ (MechVent[int((t[0]/30)*2),4] + MechVent[int((t[0]/30)*2+1),4])
+
+    extract_flow[2] = extract_flow[2]+ (MechVent[int((t[0]/30)*2),0] + MechVent[int((t[0]/30)*2+1),0])
+
+    extract_flow[3] = extract_flow[3] + (MechVent[int((t[0]/30)*2),1] + MechVent[int((t[0]/30)*2+1),1])
+
+    extract_flow[4] = + (MechVent[int((t[0]/30)*2),3] + MechVent[int((t[0]/30)*2+1),3])
+
+    extract_flow[5] = extract_flow[5] + (MechVent[int((t[0]/30)*2),5] + MechVent[int((t[0]/30)*2+1),5])
+
+    extract_flow[6] = + (MechVent[int((t[0]/30)*2),6] + MechVent[int((t[0]/30)*2+1),6])
+    
+    extract_flow[7] = extract_flow[7] + (MechVent[int((t[0]/30)*2),7] + MechVent[int((t[0]/30)*2+1),7])
+    
+    extract_flow[8] = extract_flow[8] + (MechVent[int((t[0]/30)*2),8] + MechVent[int((t[0]/30)*2+1),8])
+    
+    extract_flow[9] =  extract_flow[9] + (MechVent[int((t[0]/30)*2),9] + MechVent[int((t[0]/30)*2+1),9])
+    
+    extract_flow[10] = extract_flow[10] + (MechVent[int((t[0]/30)*2),10] + MechVent[int((t[0]/30)*2+1),10])
+    
+    extract_flow[11] = extract_flow[11] + (MechVent[int((t[0]/30)*2),11] + MechVent[int((t[0]/30)*2+1),11])
 
     
     print("Ventilation in Zone i Extract_flow =" + str(extract_flow))

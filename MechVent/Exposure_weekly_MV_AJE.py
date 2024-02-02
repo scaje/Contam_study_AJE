@@ -82,14 +82,17 @@ p=0.01
 
 
 #THE FILEPATH USED FOR THE RESULTS THROUGHOUT (Uncomment where neccessary)
-#For 'mechanical ventialtion only' case
-#filepath = r"Contam_sim\IZFlow_MV_winclsd3ACH.csv"
-
 #for 'natural ventilation and mechanical ventialtion' case
-#filepath = r"Contam_sim\IZFlows_MV_winop3ACH.csv"
+#Inter-zonal flow results file path
+filepath = r"Contam_sim\IZFlows.csv"
 
-#3ach mech vent
-filepathMV =  r"Contam_sim\MechVentFlows3ACH.csv"
+#for the 2 mechanical ventialtion cases - uncomment where neccessary
+
+#3ACH Mechanical Ventialtion
+#filepathMV =  r"Contam_sim\MechVentFlows3ACH.csv"
+
+#6ACH Mechanical Ventialtion
+#filepathMV =  r"Contam_sim\MechVentFlows6ACH.csv"
 
 ###############################################################
 
