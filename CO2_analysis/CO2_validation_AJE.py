@@ -72,7 +72,7 @@ plt.bar(x[0] - 2*width, summary_data_exp[0], 0.3,color='m', label='Measured $CO_
 plt.bar(x[1] - 2*width , summary_data_exp[1], 0.3, color = 'm')#, label = '800-1200ppm')
 plt.bar(x[2] - 2*width, summary_data_exp[2], 0.3, color = 'm')#, label = '>1200ppm')
 
-plt.bar(x[0] , summary_data_sim2[0,4], 0.3, color = 'b' , label='Simulated $CO_2$ - Half doors Closed')#, label = '400-800ppm')
+plt.bar(x[0] , summary_data_sim2[0,4], 0.3, color = 'b' , label='Simulated $CO_2$ - Patient doors Closed')#, label = '400-800ppm')
 plt.bar(x[1] , summary_data_sim2[1,4], 0.3, color = 'b' )#, label = '800-1200ppm')
 plt.bar(x[2] , summary_data_sim2[2,4], 0.3, color = 'b')#, label = '>1200ppm')
 
