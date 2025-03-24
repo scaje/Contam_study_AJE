@@ -1,5 +1,7 @@
 # Contam Weather Study Code - AJE
-This repository contains the code and data to reproduce the research contained in the manuscript "Assessing the effects of transient weather conditions on airborne transmission risk in naturally ventilated hospitals."; Alexander J. Edwards, Marco-Felipe King,  Martin Lopez-Garcia, Daniel Peckham, Catherine J. Noakes.
+This repository contains the code and data to reproduce the research contained in the manuscript: 
+
+AJ Edwards, MF King, M López-García, D Peckham and CJ Noakes, Assessing the effects of transient weather conditions on airborne transmission risk in naturally ventilated hospitals. Journal of Hospital Infection, 2024, Volume 148, pp.1-10. https://doi.org/10.1016/j.jhin.2024.02.017
 
 # Software
 This code is written using Python in Spyder 4.1.4. Users will also require CONTAM 3.4.0.3 to reproduce the airflow simulations.
